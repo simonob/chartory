@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="ChartTest.MainPage"
+    IsTabStop="false"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ChartTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:charting="using:Chartory">
+    
+    <Page.DataContext>
+        <local:MainPageViewModel />
+    </Page.DataContext>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <charting:PieChartControl Grid.Row="0" Grid.Column="1" 
+                                  LineBrush="{StaticResource ApplicationPageBackgroundThemeBrush}" ItemsSource="{Binding Doubles}">
+        </charting:PieChartControl>
+        
+        <charting:PieChartControl Grid.Row="1" Grid.Column="1" OuterRadius="100" ItemsSource="{Binding Objects}" ValueMember="Value" DisplayMember="Text">
+        </charting:PieChartControl>
+        
+        <StackPanel Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            
+            <Button Command="{Binding AddValueCommand}">Add Random Item</Button>
+            <Button Command="{Binding ChangeValueCommand}">Change Item Values</Button>
+            <Button Command="{Binding RemoveValueCommand}">Remove Random Item</Button>
+        </StackPanel>
+        
+    </Grid>
+    
+    
+</Page>
