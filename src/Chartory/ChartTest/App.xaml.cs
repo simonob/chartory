@@ -24,7 +24,7 @@ namespace ChartTest
     sealed partial class App : Application
     {
 
-        private FirstFloor.XamlSpy.XamlSpyService service;
+        //private FirstFloor.XamlSpy.XamlSpyService service;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -34,7 +34,7 @@ namespace ChartTest
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-            this.service = new FirstFloor.XamlSpy.XamlSpyService(this);
+            //this.service = new FirstFloor.XamlSpy.XamlSpyService(this);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace ChartTest
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            this.service.StartService();
+            //this.service.StartService();
 
             // Do not repeat app initialization when already running, just ensure that
             // the window is active
