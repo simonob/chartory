@@ -93,6 +93,8 @@ namespace Chartory
                     else
                         outerRadius = this.ActualWidth / 2;
                 }
+
+                var innerRadius = ParentPieChartControl.InnerRadius;
                 
                 int i = 0;
                 foreach (var obj in items)
@@ -123,7 +125,7 @@ namespace Chartory
                             EndAngle = lastAngle + angle,
                             Stroke = ParentPieChartControl.LineBrush,
                             Fill = brush,
-                            InnerRadius = 20,
+                            InnerRadius = innerRadius,
                             StrokeThickness = 0,
                             ExplosionRadius = 15,
                             OffsetRadius = 0,

@@ -69,6 +69,7 @@ namespace Chartory
         public Brush LineBrush { get; set; }
         public Double OuterRadius { get; set; }
         public IBrushProvider FillBrushProvider { get; set; }
+        public Double InnerRadius { get; set; }
 
         public object SelectedDataItem { get; set; }
 

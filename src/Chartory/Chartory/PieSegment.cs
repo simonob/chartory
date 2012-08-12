@@ -35,6 +35,8 @@ namespace Chartory
 
         public int PieceNumber { get; set; }
 
+        private bool RenderAsCircle { get { return StartAngle == 0 && EndAngle == 360; } }
+
         public Double CurrentOffset
         {
             get { return (Double)GetValue(CurrentOffsetProperty); }
@@ -53,8 +55,6 @@ namespace Chartory
 
                 }));
 
-
-
         private Storyboard _popOutstoryboard;
 
         public PieSegment()
@@ -68,7 +68,8 @@ namespace Chartory
 
         internal void PopOut()
         {
-            _popOutstoryboard.Begin();
+            if (_popOutstoryboard != null)
+                _popOutstoryboard.Begin();
         }
 
         internal void PopIn()
@@ -79,8 +80,10 @@ namespace Chartory
 
         void PieSegment_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            createPopOutStoryboard();
             buildPath();
+
+            if (!RenderAsCircle)
+                createPopOutStoryboard();
 
             ToolTipService.SetToolTip(this, new ToolTip()
             {
@@ -100,7 +103,6 @@ namespace Chartory
 
         void createPopOutStoryboard()
         {
-
             var startingCenter = calculateStartingCenterPoint();
             var explodedCenter = calculateExplodedCenterPoint();
 
@@ -154,59 +156,90 @@ namespace Chartory
             else
                 centerPoint = calculateStartingCenterPoint();
 
-            var pf = new PathFigure();
-            if (InnerRadius == 0)
-                pf.StartPoint = centerPoint;
+            if (RenderAsCircle)
+               this.Data = buildSingleItemPath(centerPoint);
             else
-                pf.StartPoint = Utils.ComputeCartesianCoordinate(StartAngle, InnerRadius).Offset(centerPoint.X, centerPoint.Y);
-
-            pf.Segments = new PathSegmentCollection();
-
-            //add start line
-            var startLine = new LineSegment();
-            startLine.Point = Utils.ComputeCartesianCoordinate(StartAngle, Radius).Offset(centerPoint.X, centerPoint.Y);
-            pf.Segments.Add(startLine);
-
-            //add arc segment
-            var arc = new ArcSegment()
             {
-                Point = Utils.ComputeCartesianCoordinate(EndAngle, Radius).Offset(centerPoint.X, centerPoint.Y),
-                Size = new Windows.Foundation.Size(Radius, Radius),
-                SweepDirection = SweepDirection.Clockwise,
-                IsLargeArc = (EndAngle - StartAngle > 180)
-            };
-            pf.Segments.Add(arc);
+                var pf = new PathFigure();
+                if (InnerRadius == 0)
+                    pf.StartPoint = centerPoint;
+                else
+                    pf.StartPoint = Utils.ComputeCartesianCoordinate(StartAngle, InnerRadius).Offset(centerPoint.X, centerPoint.Y);
 
-            //add closing line
-            var endLine = new LineSegment();
-            if (InnerRadius == 0)
-                endLine.Point = centerPoint;
-            else
-                endLine.Point = Utils.ComputeCartesianCoordinate(EndAngle, InnerRadius).Offset(centerPoint.X, centerPoint.Y);
+                pf.Segments = new PathSegmentCollection();
 
-            pf.Segments.Add(endLine);
+                //add start line
+                var startLine = new LineSegment();
+                startLine.Point = Utils.ComputeCartesianCoordinate(StartAngle, Radius).Offset(centerPoint.X, centerPoint.Y);
+                pf.Segments.Add(startLine);
+
+                //add arc segment
+                var arc = new ArcSegment()
+                {
+                    Point = Utils.ComputeCartesianCoordinate(EndAngle, Radius).Offset(centerPoint.X, centerPoint.Y),
+                    Size = new Windows.Foundation.Size(Radius, Radius),
+                    SweepDirection = SweepDirection.Clockwise,
+                    IsLargeArc = (EndAngle - StartAngle > 180),
+                };
+                pf.Segments.Add(arc);
+
+                //add closing line
+                var endLine = new LineSegment();
+                if (InnerRadius == 0)
+                    endLine.Point = centerPoint;
+                else
+                    endLine.Point = Utils.ComputeCartesianCoordinate(EndAngle, InnerRadius).Offset(centerPoint.X, centerPoint.Y);
+
+                pf.Segments.Add(endLine);
+
+                if (InnerRadius != 0)
+                {
+                    //add inner arc segment
+                    var innerArc = new ArcSegment()
+                    {
+                        Point = Utils.ComputeCartesianCoordinate(StartAngle, InnerRadius).Offset(centerPoint.X, centerPoint.Y),
+                        Size = new Windows.Foundation.Size(InnerRadius, InnerRadius),
+                        SweepDirection = SweepDirection.Counterclockwise,
+                        IsLargeArc = (EndAngle - StartAngle > 180)
+                    };
+                    pf.Segments.Add(innerArc);
+
+                }
+
+                this.Data = new PathGeometry()
+                {
+                    Figures = new PathFigureCollection()
+                    {
+                        pf
+                    }
+                };
+            }
+
+        }
+
+        private Geometry buildSingleItemPath(Point centerPoint)
+        {
+            GeometryGroup gg = new GeometryGroup();
+
+            EllipseGeometry outerEllipse = new EllipseGeometry();
+            outerEllipse.Center = centerPoint;
+            outerEllipse.RadiusX = Radius;
+            outerEllipse.RadiusY = Radius;
+
+            gg.Children.Add(outerEllipse);
 
             if (InnerRadius != 0)
             {
-                //add inner arc segment
-                var innerArc = new ArcSegment()
-                {
-                    Point = Utils.ComputeCartesianCoordinate(StartAngle, InnerRadius).Offset(centerPoint.X, centerPoint.Y),
-                    Size = new Windows.Foundation.Size(InnerRadius, InnerRadius),
-                    SweepDirection = SweepDirection.Counterclockwise,
-                    IsLargeArc = (EndAngle - StartAngle > 180)
-                };
-                pf.Segments.Add(innerArc);
+                EllipseGeometry innerEllipse = new EllipseGeometry();
+                innerEllipse.Center = centerPoint;
+                innerEllipse.RadiusX = InnerRadius;
+                innerEllipse.RadiusY = InnerRadius;
 
+                gg.Children.Add(innerEllipse);
             }
 
-            this.Data = new PathGeometry()
-            {
-                Figures = new PathFigureCollection()
-                {
-                    pf
-                }
-            };
+            return gg;
+
         }
 
     }

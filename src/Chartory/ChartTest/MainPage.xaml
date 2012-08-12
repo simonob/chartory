@@ -25,10 +25,10 @@
         </Grid.RowDefinitions>
         
         <charting:PieChartControl Grid.Row="0" Grid.Column="1" 
-                                  LineBrush="{StaticResource ApplicationPageBackgroundThemeBrush}" ItemsSource="{Binding Doubles}">
+                                  LineBrush="{StaticResource ApplicationPageBackgroundThemeBrush}" ItemsSource="{Binding Doubles}" InnerRadius="20">
         </charting:PieChartControl>
         
-        <charting:PieChartControl Grid.Row="1" Grid.Column="1" OuterRadius="100" ItemsSource="{Binding Objects}" ValueMember="Value" DisplayMember="Text">
+        <charting:PieChartControl Grid.Row="1" Grid.Column="1" OuterRadius="100" ItemsSource="{Binding Objects}" ValueMember="Value" DisplayMember="Text" InnerRadius="40">
         </charting:PieChartControl>
         
         <StackPanel Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
