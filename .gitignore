@@ -4,3 +4,31 @@ obj
 
 # mstest test results
 TestResults
+
+#User Specific Files
+*.user
+*.suo
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.log
+*.vspscc
+*.vssscc
+.builds
