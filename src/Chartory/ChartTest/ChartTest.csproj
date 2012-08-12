@@ -143,11 +143,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="XamlSpy">
-      <HintPath>..\..\..\..\..\Program Files (x86)\First Floor Software\XAML Spy\Libraries\WinRT\XamlSpy.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Chartory\Chartory.csproj">
       <Project>{42facc82-5b97-4fc6-a5ba-7b8820268aaa}</Project>
       <Name>Chartory</Name>
