@@ -1,0 +1,98 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Chartory"
+    xmlns:converters="using:Chartory.Converters">
+    
+    <converters:StringFormatter x:Key="stringFormatter" />
+
+    <Style TargetType="local:PieSegmentLabel">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PieSegmentLabel">
+                        
+                        <Grid Background="{TemplateBinding Background}" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.ColumnSpan="2">
+                                <Border Width="12" Height="12" Background="{TemplateBinding Brush}"></Border>
+                                <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Text="{TemplateBinding Text}" />
+                            </StackPanel>
+                            
+                            <TextBlock VerticalAlignment="Center" Grid.Row="1" 
+                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Value, Converter={StaticResource stringFormatter}, ConverterParameter='{}{0:0.00}' }" />
+                            <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="20,0,0,0"
+                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Percentage, Converter={StaticResource stringFormatter}, ConverterParameter='{}{0:0.00%}' }" />
+                        </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:PieChartControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PieChartControl">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <local:PieChartCanvas x:Name="PieChartControl_Canvas" Grid.Column="0" 
+                                                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            
+                            <local:LegendControl x:Name="PieChartControl_Legend" Grid.Column="1" 
+                                                 VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                 BorderBrush="White" BorderThickness="1" Visibility="{TemplateBinding LegendVisibility}" Margin="10"/>
+                        </Grid>
+                    
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:LegendControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LegendControl">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{TemplateBinding Items}" Margin="5,0,5,5">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5,0,0">
+                                            <Border Width="12" Height="12" Background="{Binding FillBrush}"></Border>
+                                            <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Text="{Binding Text}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
+

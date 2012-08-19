@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>1.0.0</version>
+    <authors>Simon O'Beirne</authors>
+    <owners>Simon O'Beirne</owners>
+    <licenseUrl>http://opensource.org/licenses/ms-pl.html</licenseUrl>
+    <projectUrl>http://github.com/simonob/Chartory</projectUrl>
+    <iconUrl>http://http://storage.developmetro.co.uk/ChartoryLogo.png</iconUrl>
+    <id>Chartory</id>
+    <title>Chartory</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>XAML/C# Windows 8 UI (Metro) -style charts</description>
+    <language>en-US</language>
+    <tags>xaml winrt win8 metro chart datavisualization</tags>
+  </metadata>
+  <files>
+    <file src="Chartory\lib\winrt45\Chartory\Themes\Generic.xaml" target="lib\winrt45\Chartory\Themes\Generic.xaml" />
+    <file src="Chartory\lib\winrt45\Chartory.pri" target="lib\winrt45\Chartory.pri" />
+    <file src="Chartory\lib\winrt45\Chartory.dll" target="lib\winrt45\Chartory.dll" />
+  </files>
+</package>
